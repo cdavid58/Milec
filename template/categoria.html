@@ -1,0 +1,141 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div id="all">
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <!-- breadcrumb-->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li aria-current="page" class="breadcrumb-item active">Ladies</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-lg-3">
+              <!--
+              *** MENUS AND FILTERS ***
+              _________________________________________________________
+              -->
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Categories</h3>
+                </div>
+                <div class="card-body">
+                  <ul class="nav nav-pills flex-column category-menu">
+                    {% for i in cat %}
+                      <li><a href="category.html" class="nav-link nav-link active">{{i.nombre}} <!--span class="badge badge-secondary">42</span--></a>
+                        <ul class="list-unstyled">
+                          {% for x in subCate %}
+                            {% if x.cat.nombre == i.nombre %}
+                              {% for j in subSubCat %}
+                                {% if j.subcategoria.nombre == x.nombre %}
+                                  <li><a href="category.html" class="nav-link">{{j.nombre}}</a></li>
+                                {% endif %}
+                              {% endfor %}
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <div class="banner"><a href="#"><img src="{% static 'img/banner.jpg' %}" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            <div class="col-lg-9">
+              <div class="box">
+                <h1 style="font-family: 'Dancing Script', cursive;">Chicas</h1>
+                <p style="font-family: 'Shadows Into Light', cursive; font-size: 25px;">En nuestro departamento de Damas ofrecemos una amplia selección de los mejores productos que hemos encontrado y seleccionado cuidadosamente en todo el mundo.</p>
+              </div>
+              <div class="row products">
+                {% for i in p %}
+                  <div class="col-lg-4 col-md-6">
+                    
+                    <div class="product" style="background: url({% static 'img/agua.png' %})">
+                      <div class="flip-container">
+                        <div class="flipper">
+                          <div class="front"><a href=""><img src="{{i.imagen.url}}" alt="" class="img-fluid"></a></div>
+                          <div class="back"><a href=""><img src="{{i.imagen.url}}" alt="" class="img-fluid"></a></div>
+                        </div>
+                      </div><a href="" class="invisible"><img src="{{i.imagen.url}}" alt="" class="img-fluid"></a>
+                      <div class="text">
+                        <h3><a href="">{{i.descripcion|truncatechars:20 }}</a></h3>
+                        <p class="price"> 
+                          <del></del>${{i.precio}}
+                        </p>
+                        <p class="buttons"><a href="{% url 'detailProduct' i.pk %}" class="btn btn-outline-secondary">Ver Detalles</a>
+                          <button type="button" id="{{i.pk}}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Agregar al Carrito</button></p>
+                      </div>
+                      <!-- /.text-->
+                    </div>
+                    <!-- /.product            -->
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="pages">
+                <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                  <ul class="pagination">
+                    <li class="page-item"><a href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" aria-label="Next" class="page-link"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <!-- /.col-lg-9-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+  <script>
+    $(document).ready(function(){
+      $(document).on('click','button',function(){
+        console.log(this.id);
+        let id = this.id;
+        $.ajax({
+          url:'/categoria/{{pk}}/',
+          data:{'product':id},
+          success: function(data){
+            document.getElementById('carrito').innerHTML = data;
+          }
+        });
+      });
+    });
+  </script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

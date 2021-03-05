@@ -1,0 +1,162 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+    <div id="all">
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+            </div>
+            <div id="basket" class="col-lg-9">
+              <div class="box">
+                <form method="post" action="checkout1.html">
+                  <h1>Carro de la compra</h1>
+                  <p class="text-muted">Actualmente tiene {{carrito}} artículos en su carrito..</p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th colspan="2">Producto</th>
+                          <th>Cantidad</th>
+                          <th>Precio Unitario</th>
+                          <th>Descuento</th>
+                          <th colspan="2">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in cart %}
+                        <tr>
+                          <td><a href="#"><img src="{{i.img}}"></a></td>
+                          <td><a href="#">{{i.articulo}}</a></td>
+                          <td>
+                            <input type="number" id="cantidad{{i.codigo}}" value="{{i.cantidad}}" class="form-control">
+                          </td>
+                          <td>${{i.precio}}</td>
+                          <td>$0.00</td>
+                          <td>${{i.total}}</td>
+                          <td><button type="button" id="{{i.codigo}}" class="btn btn-danger"><i class="fa fa-trash-o"></i></button></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="5">Total</th>
+                          <th colspan="2">${{total}}</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <!-- /.table-responsive-->
+                  <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
+                    <div class="left"><a href="{% url 'home' %}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Seguir comprando</a></div>
+                    <div class="right">
+                      <!--a id="update" class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Actualiza el Carrito</a-->
+                      <a href="{% url 'datos' %}" id="{{i.pk}}" class="btn btn-primary">Proceder a pagar <i class="fa fa-chevron-right"></i></a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+            <!-- /.col-lg-9-->
+            <div class="col-lg-3">
+              <div id="order-summary" class="box">
+                <div class="box-header">
+                  <h3 class="mb-0">Resumen de pedido</h3>
+                </div>
+                <p class="text-muted">Los costos de envío y adicionales se calculan en función de los valores que ingresó.</p>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>Subtotal de Orden</td>
+                        <th>${{total}}</th>
+                      </tr>
+                      <tr>
+                        <td>Envío y manipulación</td>
+                        <th>$10.00</th>
+                      </tr>
+                      <tr>
+                        <td>Impuesto</td>
+                        <th>$0.00</th>
+                      </tr>
+                      <tr class="total">
+                        <td>Total</td>
+                        <th>${{totalConEnvio}}</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="box">
+                <div class="box-header">
+                  <h4 class="mb-0">Código promocional</h4>
+                </div>
+                <p class="text-muted">Si tiene un código de cupón, ingréselo en el cuadro a continuación.</p>
+                <form>
+                  <div class="input-group">
+                    <input type="text" class="form-control"><span class="input-group-append">
+                      <a href="#" class="btn btn-primary"><i class="fa fa-gift"></i></a></span>
+                  </div>
+                  <!-- /input-group-->
+                </form>
+              </div>
+            </div>
+            <!-- /.col-md-3-->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+{% endblock %}
+{% block script %}
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      $(document).on('change keyup','input',function(){
+        console.log($("#"+this.id).val());
+        if ($("#"+this.id).val() == '' || $("#"+this.id).val() == null || parseInt($("#"+this.id).val()) == 0){
+          console.log('Esta en cero');
+        }
+        else{
+          var expresion = /(\d+)/g;
+          var cadena = $("#"+this.id).val();
+          var c = cadena.match(expresion);
+
+          var cad = this.id;
+          var ce = cad.match(expresion);
+          console.log(ce[0]);
+
+          console.log(c[0]);
+          $.ajax({
+            url:'/shoppingcart/',
+            data:{'cant':c[0],'pro':ce[0]},
+            success: function(data){
+              //var obj = JSON.parse(data);
+              location.reload(true);
+
+            }
+          });
+        }
+      });
+    });
+
+    $(document).on('click','button',function(){
+      let id = this.id;
+      console.log(id);
+      $.ajax({
+        url:'/shoppingcart/',
+        data:{'delete':id},
+        success: function(){
+          location.reload(true);
+        }
+      });
+    });
+
+
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+    
+    <div id="all">
+      <div id="content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+            </div>
+            <div id="checkout" class="col-lg-9">
+              <div class="box">
+                <form method="post">{% csrf_token %}
+                  <h1>Revisa - Método de pago</h1>
+                  <div class="nav flex-column flex-sm-row nav-pills">
+                    <div class="nav flex-column flex-sm-row nav-pills">
+                      <a href="{% url 'datos' %}" class="nav-link flex-sm-fill text-sm-center disabled"> 
+                        <i class="fa fa-map-marker"></i>Dirección
+                      </a>
+                      <a href="#" class="nav-link flex-sm-fill text-sm-center active"> 
+                        <i class="fa fa-money"></i>Método de pago
+                      </a>
+                      <a href="#" class="nav-link flex-sm-fill text-sm-center disabled">
+                        <i class="fa fa-eye"></i>Revisión del padido
+                      </a>
+                  </div>
+                  <div class="content py-3">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="box payment-method">
+                          <h4>Paypal</h4>
+                          <p>Nos gusta todo.</p>
+                          <div class="box-footer text-center">
+                            <input type="radio" name="payment" value="payment1">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="box payment-method">
+                          <h4>Pasarela de pago</h4>
+                          <p>Solo VISA y Mastercard.</p>
+                          <div class="box-footer text-center">
+                            <input type="radio" name="payment" value="payment2">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="box payment-method">
+                          <h4>Contra reembolso</h4>
+                          <p>Pagas cuando lo recibes.</p>
+                          <div class="box-footer text-center">
+                            <input type="radio" name="payment" value="payment3">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.row-->
+                  </div>
+                  <!-- /.content-->
+                  <div class="box-footer d-flex justify-content-between"><a href="checkout2.html" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Volver</a>
+                    <button type="submit" class="btn btn-primary">Continuar con la revisión del pedido<i class="fa fa-chevron-right"></i></button>
+                  </div>
+                </form>
+                <!-- /.box-->
+              </div>
+            </div>
+            <!-- /.col-lg-9-->
+            <div class="col-lg-3">
+              <div id="order-summary" class="card">
+                <div class="card-header">
+                  <h3 class="mt-4 mb-4">Resumen de pedido</h3>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted">Los costos de envío y adicionales se calculan en función de los valores que ingresó.</p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td>Subtotal de Orden</td>
+                          <th>${{total}}</th>
+                        </tr>
+                        <tr>
+                          <td>Envío y manipulación</td>
+                          <th>$10.00</th>
+                        </tr>
+                        <tr>
+                          <td>Impuesto</td>
+                          <th>$0.00</th>
+                        </tr>
+                        <tr class="total">
+                          <td>Total</td>
+                          <th>${{totalConEnvio}}</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.col-lg-3-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}

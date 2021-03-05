@@ -1,0 +1,118 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+    
+<div id="all">
+  <div id="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+        </div>
+        <div id="checkout" class="col-lg-9">
+          <div class="box">
+            <form method="post">{% csrf_token %}
+              <h1>Revisa - Dirección</h1>
+              <div class="nav flex-column flex-md-row nav-pills text-center">
+                <a href="{% url 'datos' %}" class="nav-link flex-sm-fill text-sm-center active"> 
+                  <i class="fa fa-map-marker"></i>Dirección
+                </a>
+                <a href="#" class="nav-link flex-sm-fill text-sm-center disabled"> 
+                  <i class="fa fa-money"></i>Payment Method
+                </a>
+                <a href="#" class="nav-link flex-sm-fill text-sm-center disabled"><i class="fa fa-eye"></i>Order Review
+                </a>
+              </div>
+              <div class="content py-3">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="firstname">Nombre</label>
+                      <input id="firstname" disabled value="{{nombre}}" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="lastname">Apellido</label>
+                      <input id="lastname" type="text" name="apellido" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row-->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="company">Dirección</label>
+                      <input id="company" type="text" name="dir" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="street">Calle</label>
+                      <input id="street" type="text" name="calle" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row-->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="phone">Teléfono</label>
+                      <input id="phone" type="text" disabled value="{{tlf}}" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="email">Correo electrónico</label>
+                      <input id="email" type="text" class="form-control" disabled value="{{email}}">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row-->
+              </div>
+              <div class="box-footer d-flex justify-content-between"><a href="basket.html" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Volver al carrito</a>
+                <button type="submit" class="btn btn-primary">Continuar con el método de pago<i class="fa fa-chevron-right"></i></button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-->
+        </div>
+        <!-- /.col-lg-9-->
+        <div class="col-lg-3">
+          <div id="order-summary" class="card">
+            <div class="card-header">
+              <h3 class="mt-4 mb-4">Resumen de pedido</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-muted">Los costos de envío y adicionales se calculan en función de los valores que ingresó.</p>
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>Subtotal de Orden</td>
+                      <th>${{total}}</th>
+                    </tr>
+                    <tr>
+                      <td>Envío y manipulación</td>
+                      <th>$10.00</th>
+                    </tr>
+                    <tr>
+                      <td>Impuesto</td>
+                      <th>$0.00</th>
+                    </tr>
+                    <tr class="total">
+                      <td>Total</td>
+                      <th>${{totalConEnvio}}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-lg-3-->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
